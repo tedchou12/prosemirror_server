@@ -83,10 +83,20 @@ if ($url_parts[1] == 'schema') {
 
   if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $json = file_get_contents('php://input');
+    $data = json_decode($json, true);
     $fp = fopen($path, 'a');
     fwrite($fp, $json);
     fwrite($fp, "\n");
     fclose($fp);
+
+    $version = $data['version'] + 1;
+    $result = array('version' => $version);
+
+    echo json_encode($result);
+    exit();
+
+    // $result = array('result' => 'success');
+    // echo json_encode($result);
   } else {
     $query_parts = explode('?', $url_parts[1]);
     $queries = explode('&', $query_parts[1]);
@@ -109,13 +119,6 @@ if ($url_parts[1] == 'schema') {
         }
       }
     }
-
-    // $response = array('version'   => 69,
-    //                   'steps'     => json_decode($data, true),
-    //                   'clientIDs' => array('5b41e500-fc80-11ea-a57c-8bc70236411d'),
-    //                   'users'     => 1);
-    // $response = json_decode($response, true);
-
   }
 }
 
