@@ -24,12 +24,48 @@ class prosemirror_server implements MessageComponentInterface {
         // $data = file_get_contents($path);
         $doc = sprintf('data/%d.txt', $doc_id);
         $step = sprintf('data/%d.history.txt', $doc_id);
-        $out = sprintf('data/%d.out.txt', $doc_id);
-        exec(sprintf('./prosemirror_server-macos doc=%s step=%s out=%s', $doc, $step, $out));
 
-        if (file_exists($out)) {
-          $data = file_get_contents($out);
-          $response = json_decode($data, true);
+        if ($compile) {
+          $out = sprintf('data/%d.out.txt', $doc_id);
+          exec(sprintf('./prosemirror_server-macos doc=%s step=%s out=%s', $doc, $step, $out));
+
+          if (file_exists($out)) {
+            $data = file_get_contents($out);
+            $response = json_decode($data, true);
+
+            $response = array('type' => 'init',
+                              'data' => $response);
+            $conn->send(json_encode($response));
+          }
+        } else {
+          $doc = sprintf('data/%d.txt', $doc_id);
+          $doc_json = file_get_contents($doc);
+          $doc_json = json_decode($doc_json, true);
+          $data = array('doc_json' => $doc_json['doc_json'],
+                        'users' => 1,
+                        'version' => 0);
+
+          $response = array('type' => 'init',
+                            'data' => $data);
+          $conn->send(json_encode($response));
+
+          $step = sprintf('data/%d.history.txt', $doc_id);
+          $step_rows = file($step);
+          $version = 0;
+          $steps = array();
+          $client_ids = array();
+          foreach ($step_rows as $step_row) {
+            $step_data = json_decode($step_row, true);
+            if ($step_data['version'] > $version) {
+              $version = $step_data['version'];
+            }
+            $steps = array_merge($steps, $step_data['steps']);
+            $client_ids[] = $step_data['clientID'];
+          }
+          $step_json = array('version' => $version, 'steps' => $steps, 'clientIDs' => $client_ids);
+          $response = array('type' => 'step',
+                            'data' => $step_json);
+          $conn->send(json_encode($response));
         }
       } else {
         $data = array('doc_json' => array('type'    => 'doc',
@@ -56,11 +92,11 @@ class prosemirror_server implements MessageComponentInterface {
                       'users' => 1,
                       'version' => 0);
         $response = $data;
-      }
 
-      $response = array('type' => 'init',
-                        'data' => $response);
-      $conn->send(json_encode($response));
+        $response = array('type' => 'init',
+                          'data' => $response);
+        $conn->send(json_encode($response));
+      }
     }
 
     $this->clients->attach($conn);
@@ -76,33 +112,50 @@ class prosemirror_server implements MessageComponentInterface {
 
     $data = json_decode($s_data, true);
 
-    $version = 0;
-    $versions = array();
-    $lines = file($path);
-    foreach ($lines as $line) {
-      if ($line) {
-        $line_json = json_decode($line, true);
-        $versions[] = $line_json['version'];
+    if ($data['type'] == 'content') {
+      $data = $data['data'];
+      $version = 0;
+      $versions = array();
+      $lines = file($path);
+      foreach ($lines as $line) {
+        if ($line) {
+          $line_json = json_decode($line, true);
+          $versions[] = $line_json['version'];
+        }
       }
-    }
 
-    $data['version'] = max($versions) + 1;
+      $data['version'] = max($versions) + 1;
 
-    $fp = fopen($path, 'a');
-    fwrite($fp, json_encode($data));
-    fwrite($fp, "\n");
-    fclose($fp);
+      $fp = fopen($path, 'a');
+      fwrite($fp, json_encode($data));
+      fwrite($fp, "\n");
+      fclose($fp);
 
-    foreach ($this->clients as $client) {
-      if ($client) {
-        $query = $conn->httpRequest->getUri()->getQuery();
-        parse_str($query, $tq_data);
+      foreach ($this->clients as $client) {
+        if ($client) {
+          $query = $conn->httpRequest->getUri()->getQuery();
+          parse_str($query, $tq_data);
 
-        if ($tq_data['doc_id'] == $sq_data['doc_id'] && $client != $conn) {
-          $data['clientIDs'] = array($data['clientID']);
-          $response = array('type' => 'step',
-                            'data' => $data);
-          $client->send(json_encode($response));
+          if ($tq_data['doc_id'] == $sq_data['doc_id'] && $client != $conn) {
+            $data['clientIDs'] = array($data['clientID']);
+            $response = array('type' => 'step',
+                              'data' => $data);
+            $client->send(json_encode($response));
+          }
+        }
+      }
+    } else {
+      $data = $data['data'];
+      foreach ($this->clients as $client) {
+        if ($client) {
+          $query = $conn->httpRequest->getUri()->getQuery();
+          parse_str($query, $tq_data);
+
+          if ($tq_data['doc_id'] == $sq_data['doc_id'] && $client != $conn) {
+            $response = array('type' => 'cursor',
+                              'data' => $data);
+            $client->send(json_encode($response));
+          }
         }
       }
     }
