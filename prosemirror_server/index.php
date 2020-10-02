@@ -4,7 +4,7 @@ use Ratchet\Http\HttpServer;
 use Ratchet\WebSocket\WsServer;
 
 require_once dirname(__FILE__) . '/lib/websocket/vendor/autoload.php';
-require_once dirname(__FILE__) . '/prosemirror_server.php';
+require_once dirname(__FILE__) . '/server.php';
 
 // use prosemirror_server;
 
