@@ -7,6 +7,7 @@ It also includes the Prosemirror library from https://github.com/MO-Movia/licit/
 1. Start by generating the prosemirror delta parser binary executables.
 ```
 cd prosemirror_parser
+npm install
 npm run build
 mv prosemirror_parser-linux ../server
 mv prosemirror_parser-macos ../server
