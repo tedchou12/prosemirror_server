@@ -1,0 +1,9 @@
+{"version":1,"steps":[{"stepType":"replace","from":1,"to":1,"slice":{"content":[{"type":"text","text":"a"}]}}],"clientID":"683fd4e0-0484-11eb-be9a-7d72bbfbe620"}
+{"version":2,"steps":[{"stepType":"replace","from":2,"to":2,"slice":{"content":[{"type":"text","text":"b"}]}}],"clientID":"683fd4e0-0484-11eb-be9a-7d72bbfbe620"}
+{"version":3,"steps":[{"stepType":"replace","from":3,"to":3,"slice":{"content":[{"type":"text","text":"c"}]}}],"clientID":"683fd4e0-0484-11eb-be9a-7d72bbfbe620"}
+{"version":4,"steps":[{"stepType":"replace","from":4,"to":4,"slice":{"content":[{"type":"text","text":"d"}]}}],"clientID":"683fd4e0-0484-11eb-be9a-7d72bbfbe620"}
+{"version":5,"steps":[{"stepType":"replace","from":5,"to":5,"slice":{"content":[{"type":"text","text":"e"}]}}],"clientID":"683fd4e0-0484-11eb-be9a-7d72bbfbe620"}
+{"version":6,"steps":[{"stepType":"replace","from":7,"to":7,"slice":{"content":[{"type":"text","text":"a"}]}}],"clientID":"70372b30-0484-11eb-9fa1-89a02f1a0046"}
+{"version":7,"steps":[{"stepType":"replace","from":8,"to":8,"slice":{"content":[{"type":"text","text":"e"}]}}],"clientID":"70372b30-0484-11eb-9fa1-89a02f1a0046"}
+{"version":8,"steps":[{"stepType":"replace","from":9,"to":9,"slice":{"content":[{"type":"text","text":"g"}]}}],"clientID":"70372b30-0484-11eb-9fa1-89a02f1a0046"}
+{"version":9,"steps":[{"stepType":"replace","from":10,"to":10,"slice":{"content":[{"type":"text","text":"a"}]}}],"clientID":"70372b30-0484-11eb-9fa1-89a02f1a0046"}

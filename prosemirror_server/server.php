@@ -7,6 +7,31 @@ class prosemirror_server implements MessageComponentInterface {
 
   public function __construct() {
     $this->clients = new \SplObjectStorage;
+    $this->compile = false;
+    $this->default = array('doc_json' => array('type'    => 'doc',
+                                      'attrs'   => array('layout' => NULL,
+                                                         'padding' => NULL,
+                                                         'width' => NULL),
+                                      'content' => array(
+                                                      array('type' => 'paragraph',
+                                                            'attrs' => array('align' => NULL,
+                                                                             'color' => NULL,
+                                                                             'id' => NULL,
+                                                                            'indent' => NULL,
+                                                                            'lineSpacing' => NULL,
+                                                                            'paddingBottom' => NULL,
+                                                                            'paddingTop' => NULL,
+                                                                            'objectId' => NULL),
+                                                            'content' => array(
+                                                                              array('type' => 'text',
+                                                                                    'text' => ' '),
+                                                                              ),
+                                                         ),
+                                                       ),
+                                      ),
+                            'users' => 1,
+                            'version' => 0);
+    $this->server_os = 'macos'; //or linux;
   }
 
   public function onCall(ConnectionInterface $conn, $id, $topic, array $params) {
@@ -19,18 +44,25 @@ class prosemirror_server implements MessageComponentInterface {
 
     if ($data['doc_id']) {
       $doc_id = $data['doc_id'];
-      $path   = 'data/' . $doc_id . '.txt';
-      if (file_exists($path)) {
-        // $data = file_get_contents($path);
-        $doc = sprintf('data/%d.txt', $doc_id);
-        $step = sprintf('data/%d.history.txt', $doc_id);
+      $doc_path = sprintf('data/%d.txt', $doc_id);
+      $step_path = sprintf('data/%d.history.txt', $doc_id);
+      if (file_exists($doc_path) || file_exists($step_path)) {
+        if (!file_exists($doc_path)) {
+          file_put_contents($doc_path, json_encode($this->default));
+        }
+        $data = file_get_contents($doc_path);
 
-        if ($compile) {
-          $out = sprintf('data/%d.out.txt', $doc_id);
-          exec(sprintf('./prosemirror_server-macos doc=%s step=%s out=%s', $doc, $step, $out));
+        if ($this->compile) {
+          $out_path = sprintf('data/%d.out.txt', $doc_id);
+          if ($this->server_os == 'macos') {
+            $server_path = 'prosemirror_server-macos';
+          } else {
+            $server_path = 'prosemirror_server-linux';
+          }
+          exec(sprintf('./%s doc=%s step=%s out=%s', $server_path, $doc_path, $step_path, $out_path));
 
-          if (file_exists($out)) {
-            $data = file_get_contents($out);
+          if (file_exists($out_path)) {
+            $data = file_get_contents($out_path);
             $response = json_decode($data, true);
 
             $response = array('type' => 'init',
@@ -38,8 +70,7 @@ class prosemirror_server implements MessageComponentInterface {
             $conn->send(json_encode($response));
           }
         } else {
-          $doc = sprintf('data/%d.txt', $doc_id);
-          $doc_json = file_get_contents($doc);
+          $doc_json = file_get_contents($doc_path);
           $doc_json = json_decode($doc_json, true);
           $data = array('doc_json' => $doc_json['doc_json'],
                         'users' => 1,
@@ -68,33 +99,8 @@ class prosemirror_server implements MessageComponentInterface {
           $conn->send(json_encode($response));
         }
       } else {
-        $data = array('doc_json' => array('type'    => 'doc',
-                                          'attrs'   => array('layout' => NULL,
-                                                             'padding' => NULL,
-                                                             'width' => NULL),
-                                          'content' => array(
-                                                          array('type' => 'paragraph',
-                                                                'attrs' => array('align' => NULL,
-                                                                                 'color' => NULL,
-                                                                                 'id' => NULL,
-                                                                                'indent' => NULL,
-                                                                                'lineSpacing' => NULL,
-                                                                                'paddingBottom' => NULL,
-                                                                                'paddingTop' => NULL,
-                                                                                'objectId' => NULL),
-                                                                'content' => array(
-                                                                                  array('type' => 'text',
-                                                                                        'text' => ' '),
-                                                                                  ),
-                                                             ),
-                                                           ),
-                                          ),
-                      'users' => 1,
-                      'version' => 0);
-        $response = $data;
-
         $response = array('type' => 'init',
-                          'data' => $response);
+                          'data' => $this->default);
         $conn->send(json_encode($response));
       }
     }
