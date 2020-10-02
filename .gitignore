@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 prosemirror_parser-linux
 prosemirror_parser-macos
 prosemirror_parser-win.exe
@@ -13,19 +12,3 @@ server/prosemirror_parser-win.exe
 ./prosemirror_parser-win.exe
 prosemirror_parser/dst/*
 prosemirror_parser/dst
-=======
-prosemirror_parser-linux
-prosemirror_parser-macos
-prosemirror_parser-win.exe
-prosemirror_parser/prosemirror_parser-linux
-prosemirror_parser/prosemirror_parser-macos
-prosemirror_parser/prosemirror_parser-win.exe
-server/prosemirror_parser-linux
-server/prosemirror_parser-macos
-server/prosemirror_parser-win.exe
-./prosemirror_parser-linux
-./prosemirror_parser-macos
-./prosemirror_parser-win.exe
-prosemirror_parser/dst/*
-prosemirror_parser/dst
->>>>>>> f2871ccd3e600047ad61de928dacac650136b5e9
