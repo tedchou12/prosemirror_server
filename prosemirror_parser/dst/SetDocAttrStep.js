@@ -39,7 +39,7 @@ class SetDocAttrStep extends _prosemirrorTransform.Step {
   invert() {
     return new SetDocAttrStep(this.key, this.prevValue, 'revertSetDocAttr');
   } // [FS] IRAD-1010 2020-07-27
-  // Handle map properly so that undo works correctly for document attritube changes.  
+  // Handle map properly so that undo works correctly for document attritube changes.
 
 
   map(mapping) {
@@ -54,7 +54,7 @@ class SetDocAttrStep extends _prosemirrorTransform.Step {
   }
 
   merge(other) {
-    if (other instanceof SetDocAttrStep && other.mark.eq(this.mark) && this.from <= other.to && this.to >= other.from) {
+    if (other instanceof SetDocAttrStep && other.mark && other.mark.eq(this.mark) && this.from <= other.to && this.to >= other.from) {
       return new SetDocAttrStep(this.key, this.value, 'SetDocAttr');
     }
   }
