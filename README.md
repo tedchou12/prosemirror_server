@@ -9,14 +9,12 @@ It also includes the Prosemirror library from https://github.com/MO-Movia/licit/
 cd prosemirror_parser
 npm install
 npm run build
-mv prosemirror_parser-linux ../server
-mv prosemirror_parser-macos ../server
-mv prosemirror_parser-win.exe ../server
+mv prosemirror_parser-linux ../prosemirror_server
+mv prosemirror_parser-macos ../prosemirror_server
+mv prosemirror_parser-win.exe ../prosemirror_server
 ```
 2. Start the websocket server
 ```
-cd server
+cd prosemirror_server
 php websocket.php
 ```
-
-
