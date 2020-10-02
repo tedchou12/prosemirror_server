@@ -1,6 +1,21 @@
 # prosemirror-server-php
-A PHP Collaboration Server for Prosemirror. Since I am using PHP for my projects. I wanted to build the Prose Collaboration server using PHP.
-My knowledge of Node.js is limited. The server woks prematurely, but still requires lots of checks.
+A PHP Collaboration Server for Prosemirror.
+It includes the WebSocket for communicating with Prosemirror Client: https://github.com/tedchou12/prosemirror_client
+It also includes the Prosemirror library from https://github.com/MO-Movia/licit/ to parse the differences.
 
+# To Begin
+1. Start by generating the prosemirror delta parser binary executables.
+```
+cd prosermirror_parser
+npm run build
+mv prosemirror_parser-linux ../server
+mv prosemirror_parser-macos ../server
+mv prosemirror_parser-win.exe ../server
+```
+2. Start the websocket server
+```
+cd server
+php websocket.php
+```
 
 
