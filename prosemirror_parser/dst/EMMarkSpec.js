@@ -13,11 +13,9 @@ const EMMarkSpec = {
   }, {
     style: 'font-style=italic'
   }],
-
   toDOM() {
     return EM_DOM;
   }
-
 };
 var _default = EMMarkSpec;
 exports.default = _default;

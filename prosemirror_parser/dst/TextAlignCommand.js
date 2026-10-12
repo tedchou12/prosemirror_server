@@ -5,33 +5,22 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.setTextAlign = setTextAlign;
 exports.default = void 0;
-
 var _prosemirrorModel = require("prosemirror-model");
-
 var _prosemirrorState = require("prosemirror-state");
-
 var _prosemirrorTransform = require("prosemirror-transform");
-
 var _prosemirrorView = require("prosemirror-view");
-
 var _NodeNames = require("./NodeNames");
-
 var _UICommand = _interopRequireDefault(require("./ui/UICommand"));
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 function setTextAlign(tr, schema, alignment) {
   const {
     selection,
     doc
   } = tr;
-
   if (!selection || !doc) {
     return tr;
   }
-
   const {
     from,
     to
@@ -49,7 +38,6 @@ function setTextAlign(tr, schema, alignment) {
   doc.nodesBetween(from, to, (node, pos, parentNode) => {
     const nodeType = node.type;
     const align = node.attrs.align || null;
-
     if (align !== alignment && allowedNodeTypes.has(nodeType)) {
       tasks.push({
         node,
@@ -57,14 +45,11 @@ function setTextAlign(tr, schema, alignment) {
         nodeType
       });
     }
-
     return true;
   });
-
   if (!tasks.length) {
     return tr;
   }
-
   tasks.forEach(job => {
     const {
       node,
@@ -74,28 +59,25 @@ function setTextAlign(tr, schema, alignment) {
     let {
       attrs
     } = node;
-
     if (alignment) {
-      attrs = { ...attrs,
+      attrs = {
+        ...attrs,
         align: alignment
       };
     } else {
-      attrs = { ...attrs,
+      attrs = {
+        ...attrs,
         align: null
       };
     }
-
     tr = tr.setNodeMarkup(pos, nodeType, attrs, node.marks);
   });
   return tr;
 }
-
 class TextAlignCommand extends _UICommand.default {
   constructor(alignment) {
     super();
-
     _defineProperty(this, "_alignment", void 0);
-
     _defineProperty(this, "isActive", state => {
       const {
         selection,
@@ -112,26 +94,22 @@ class TextAlignCommand extends _UICommand.default {
           keepLooking = false;
           active = true;
         }
-
         return keepLooking;
       });
       return active;
     });
-
     _defineProperty(this, "isEnabled", state => {
       const {
         selection
       } = state;
       return selection instanceof _prosemirrorState.TextSelection || selection instanceof _prosemirrorState.AllSelection;
     });
-
     _defineProperty(this, "execute", (state, dispatch, view) => {
       const {
         schema,
         selection
       } = state;
       const tr = setTextAlign(state.tr.setSelection(selection), schema, this._alignment);
-
       if (tr.docChanged) {
         dispatch && dispatch(tr);
         return true;
@@ -139,11 +117,8 @@ class TextAlignCommand extends _UICommand.default {
         return false;
       }
     });
-
     this._alignment = alignment;
   }
-
 }
-
 var _default = TextAlignCommand;
 exports.default = _default;

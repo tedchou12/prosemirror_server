@@ -4,30 +4,22 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = transformAndPreserveTextSelection;
-
 var _prosemirrorModel = require("prosemirror-model");
-
 var _prosemirrorState = require("prosemirror-state");
-
 var _prosemirrorTransform = require("prosemirror-transform");
-
 var _MarkNames = require("./MarkNames");
-
 var _NodeNames = require("./NodeNames");
-
 var _applyMark = _interopRequireDefault(require("./applyMark"));
-
 var _uuid = _interopRequireDefault(require("./ui/uuid"));
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
 // Text used to create temporary selection.
 // This assumes that no user could enter such string manually.
-const PLACEHOLDER_TEXT = `[\u200b\u2800PLACEHOLDER_TEXT_${(0, _uuid.default)()}\u2800\u200b]`; // Perform the transform without losing the perceived text selection.
+const PLACEHOLDER_TEXT = `[\u200b\u2800PLACEHOLDER_TEXT_${(0, _uuid.default)()}\u2800\u200b]`;
+
+// Perform the transform without losing the perceived text selection.
 // The way it works is that this will annotate teh current selection with
 // temporary marks and restores the selection with those marks after performing
 // the transform.
-
 function transformAndPreserveTextSelection(tr, schema, fn) {
   if (tr.getMeta('dryrun')) {
     // There's no need to preserve the selection in dryrun mode.
@@ -36,42 +28,36 @@ function transformAndPreserveTextSelection(tr, schema, fn) {
       schema
     });
   }
-
   const {
     selection,
     doc
   } = tr;
   const markType = schema.marks[_MarkNames.MARK_TEXT_SELECTION];
-
   if (!markType || !selection || !doc) {
     return tr;
   }
-
   if (!(selection instanceof _prosemirrorState.TextSelection)) {
     return tr;
   }
-
   const {
     from,
     to
-  } = selection; // Mark current selection so that we could resume the selection later
-  // after changing the whole list.
+  } = selection;
 
+  // Mark current selection so that we could resume the selection later
+  // after changing the whole list.
   let fromOffset = 0;
   let toOffset = 0;
   let placeholderTextNode;
-
   if (from === to) {
     if (from === 0) {
       return tr;
-    } // Selection is collapsed, create a temporary selection that the marks can
+    }
+    // Selection is collapsed, create a temporary selection that the marks can
     // be applied to.
-
-
     const currentNode = tr.doc.nodeAt(from);
     const prevNode = tr.doc.nodeAt(from - 1);
     const nextNode = tr.doc.nodeAt(from + 1);
-
     if (!currentNode && prevNode && prevNode.type.name === _NodeNames.PARAGRAPH && !prevNode.firstChild) {
       // The selection is at a paragraph node which has no content.
       // Create a temporary text and move selection into that text.
@@ -97,19 +83,17 @@ function transformAndPreserveTextSelection(tr, schema, fn) {
       // Selection can't be safely preserved.
       return tr;
     }
-
-    tr = tr.setSelection( // [FS] IRAD-1005 2020-07-29
+    tr = tr.setSelection(
+    // [FS] IRAD-1005 2020-07-29
     // Upgrade outdated packages.
     // reset selection using the latest doc.
     // This fixes IRAD-1023
     _prosemirrorState.TextSelection.create(tr.doc, from + fromOffset, to + toOffset));
-  } // This is an unique ID (by reference).
+  }
 
-
+  // This is an unique ID (by reference).
   const id = {};
-
   const findMark = mark => mark.attrs.id === id;
-
   const findMarkRange = () => {
     let markFrom = 0;
     let markTo = 0;
@@ -118,17 +102,16 @@ function transformAndPreserveTextSelection(tr, schema, fn) {
         markFrom = markFrom === 0 ? pos : markFrom;
         markTo = pos + node.nodeSize;
       }
-
       return true;
     });
     return {
       from: markFrom,
       to: markTo
     };
-  }; // TODO: This has side-effect. It will cause `tr.docChanged` to be `true`.
+  };
+
+  // TODO: This has side-effect. It will cause `tr.docChanged` to be `true`.
   // No matter whether `fn({tr, schema})` did change the doc or not.
-
-
   tr = (0, _applyMark.default)(tr, schema, markType, {
     id
   });
@@ -143,7 +126,6 @@ function transformAndPreserveTextSelection(tr, schema, fn) {
   };
   selectionRange.to = Math.max(0, selectionRange.from, selectionRange.to);
   tr = tr.removeMark(markRange.from, markRange.to, markType);
-
   if (placeholderTextNode) {
     tr.doc.descendants((node, pos) => {
       if (node.type.name === _NodeNames.TEXT && node.text === PLACEHOLDER_TEXT) {
@@ -151,11 +133,9 @@ function transformAndPreserveTextSelection(tr, schema, fn) {
         placeholderTextNode = null;
         return false;
       }
-
       return true;
     });
   }
-
   tr = tr.setSelection(_prosemirrorState.TextSelection.create(tr.doc, selectionRange.from, selectionRange.to));
   return tr;
 }

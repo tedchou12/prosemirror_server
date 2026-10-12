@@ -6,7 +6,7 @@
   "bin": "main.js",
   "scripts": {
     "start": "npm start",
-    "build": "rm -rf dst && npx babel src -d dst && node main.js && pkg ."
+    "build": "rm -rf dst && npx babel src -d dst && node main.js && pkg . --targets node22-macos-arm64 --output prosemirror_parser-macos"
   },
   "devDependencies": {
     "@babel/cli": "^7.11.6",
@@ -38,7 +38,7 @@
     "mv": "^2.1.1",
     "node-mathquill": "0.10.2",
     "nullthrows": "1.1.1",
-    "pkg": "^4.4.9",
+    "@yao-pkg/pkg": "^6.23.0",
     "prosemirror-collab": "1.2.2",
     "prosemirror-commands": "1.1.4",
     "prosemirror-dev-tools": "3.0.2",

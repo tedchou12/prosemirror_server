@@ -9,11 +9,9 @@ const CodeMarkSpec = {
   parseDOM: [{
     tag: 'code'
   }],
-
   toDOM() {
     return CODE_DOM;
   }
-
 };
 var _default = CodeMarkSpec;
 exports.default = _default;

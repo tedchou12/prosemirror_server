@@ -19,11 +19,9 @@ const TextUnderlineMarkSpec = {
       return value === 'underline' && null;
     }
   }],
-
   toDOM() {
     return ['u', 0];
   }
-
 };
 var _default = TextUnderlineMarkSpec;
 exports.default = _default;

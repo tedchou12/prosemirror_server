@@ -4,11 +4,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = void 0;
-
 var _prosemirrorModel = require("prosemirror-model");
-
 var _toCSSColor = require("./ui/toCSSColor");
-
 const TextHighlightMarkSpec = {
   attrs: {
     highlightColor: ''
@@ -27,22 +24,18 @@ const TextHighlightMarkSpec = {
       };
     }
   }],
-
   toDOM(node) {
     const {
       highlightColor
     } = node.attrs;
     let style = '';
-
     if (highlightColor) {
       style += `background-color: ${highlightColor};`;
     }
-
     return ['span', {
       style
     }, 0];
   }
-
 };
 var _default = TextHighlightMarkSpec;
 exports.default = _default;

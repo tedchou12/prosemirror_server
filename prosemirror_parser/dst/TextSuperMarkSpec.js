@@ -13,11 +13,9 @@ const TextSuperMarkSpec = {
       return value === 'super' && null;
     }
   }],
-
   toDOM() {
     return ['sup', 0];
   }
-
 };
 var _default = TextSuperMarkSpec;
 exports.default = _default;

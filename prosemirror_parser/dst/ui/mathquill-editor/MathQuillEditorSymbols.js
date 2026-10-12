@@ -4,11 +4,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.TRIG = exports.SYMBOLS = exports.STRUCTURE = exports.OPERATORS = exports.VERT = exports.VDASH = exports.UNION = exports.UNDERLINE = exports.TRIANGLE = exports.TIMES = exports.THETA = exports.TAN = exports.SUPERSETEQ = exports.SUPERSET = exports.SUM = exports.SUBSETEQ = exports.SUBSET = exports.SUBSCRIPT = exports.SQRT = exports.SQRT2 = exports.SQR = exports.SMALLE = exports.SIN = exports.SIM = exports.SIMEQ = exports.POWER = exports.PM = exports.PLUS = exports.PI = exports.PHI = exports.PERP = exports.PARENS = exports.OVERLINE = exports.NEQ = exports.MINUS = exports.LTE = exports.LT = exports.LOG_E = exports.INTXY = exports.INTERSECT = exports.INT = exports.INFINITY = exports.IMAGINARY = exports.GTE = exports.GT = exports.FRAC = exports.EQUAL = exports.DOTM = exports.DOLLAR = exports.DIVIDE = exports.DEGREES = exports.CTIMES = exports.CONG = exports.COS = exports.CENT = exports.BRACKETS = exports.ARROWLLR = exports.ARROWRL = exports.ARROWLL = exports.ARCTAN = exports.ARCSIN = exports.ARCCOS = exports.APPROX = exports.ANGLE = exports.ABSOLUTE = void 0;
-
 var _i18n = _interopRequireDefault(require("../i18n"));
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
 // It's hard to find a full list of latex symbols that we could use.
 // Here's are some references that might be helpful.
 // https://github.com/mathquill/mathquill/blob/23a0e88c80c79514ffc30ead490bd880306bce2a/src/commands/math/basicSymbols.js

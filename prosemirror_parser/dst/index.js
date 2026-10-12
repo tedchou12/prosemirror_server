@@ -51,17 +51,10 @@ Object.defineProperty(exports, "POST", {
     return _http.POST;
   }
 });
-
 var _prosemirrorState = require("prosemirror-state");
-
 var _isEditorStateEmpty = _interopRequireDefault(require("./isEditorStateEmpty"));
-
 var _uuid = _interopRequireDefault(require("./ui/uuid"));
-
 var _Licit = _interopRequireDefault(require("./client/Licit.js"));
-
 var _Types = require("./Types");
-
 var _http = require("./client/http");
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }

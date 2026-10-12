@@ -6,7 +6,6 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = void 0;
 const CSS_ROTATE_PATTERN = /rotate\(([0-9\.]+)rad\)/i;
 const EMPTY_CSS_VALUE = new Set(['0%', '0pt', '0px']);
-
 function getAttrs(dom) {
   const {
     cssFloat,
@@ -19,7 +18,6 @@ function getAttrs(dom) {
     height
   } = dom.style;
   let align = dom.getAttribute('data-align') || dom.getAttribute('align');
-
   if (align) {
     align = /(left|right|center)/.test(align) ? align : null;
   } else if (cssFloat === 'left' && !display) {
@@ -29,7 +27,6 @@ function getAttrs(dom) {
   } else if (!cssFloat && display === 'block') {
     align = 'block';
   }
-
   width = width || dom.getAttribute('width');
   height = height || dom.getAttribute('height');
   let crop = null;
@@ -37,11 +34,9 @@ function getAttrs(dom) {
   const {
     parentElement
   } = dom;
-
   if (parentElement instanceof HTMLElement) {
     // Special case for Google doc's image.
     const ps = parentElement.style;
-
     if (ps.display === 'inline-block' && ps.overflow === 'hidden' && ps.width && ps.height && marginLeft && !EMPTY_CSS_VALUE.has(marginLeft) && marginTop && !EMPTY_CSS_VALUE.has(marginTop)) {
       crop = {
         width: parseInt(ps.width, 10) || 0,
@@ -50,17 +45,14 @@ function getAttrs(dom) {
         top: parseInt(marginTop, 10) || 0
       };
     }
-
     if (ps.transform) {
       // example: `rotate(1.57rad) translateZ(0px)`;
       const mm = ps.transform.match(CSS_ROTATE_PATTERN);
-
       if (mm && mm[1]) {
         rotate = parseFloat(mm[1]) || null;
       }
     }
   }
-
   return {
     align,
     alt: dom.getAttribute('alt') || null,
@@ -72,9 +64,9 @@ function getAttrs(dom) {
     width: parseInt(width, 10) || null,
     objectId: dom.getAttribute('objectId') || null
   };
-} // https://github.com/ProseMirror/prosemirror-schema-basic/blob/master/src/schema-basic.js
+}
 
-
+// https://github.com/ProseMirror/prosemirror-schema-basic/blob/master/src/schema-basic.js
 const ImageNodeSpec = {
   inline: true,
   attrs: {
@@ -112,11 +104,9 @@ const ImageNodeSpec = {
     tag: 'img[src]',
     getAttrs
   }],
-
   toDOM(node) {
     return ['img', node.attrs];
   }
-
 };
 var _default = ImageNodeSpec;
 exports.default = _default;

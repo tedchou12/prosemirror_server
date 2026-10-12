@@ -133,11 +133,9 @@ lang_list['zh'] = {
   'Trigonometry': '三角函式',
   'Change': '變更'
 };
-
 function Lang(text) {
   if (text in lang_list['zh']) {
     return lang_list['zh'][text];
   }
-
   return text;
 }

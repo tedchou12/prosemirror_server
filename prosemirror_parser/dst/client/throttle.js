@@ -4,7 +4,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = throttle;
-
 function throttle(fn, threshhold, context) {
   let last;
   let deferTimer;
@@ -12,7 +11,6 @@ function throttle(fn, threshhold, context) {
   return function () {
     const now = Date.now();
     const args = Array.prototype.slice.call(arguments);
-
     if (last && now < last + threshhold) {
       // hold on to it
       clearTimeout(deferTimer);

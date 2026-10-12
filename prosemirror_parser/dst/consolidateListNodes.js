@@ -4,17 +4,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = consolidateListNodes;
-
 var _isOrderedListNode = _interopRequireDefault(require("./isOrderedListNode"));
-
 var _isListNode = _interopRequireDefault(require("./isListNode"));
-
 var _prosemirrorModel = require("prosemirror-model");
-
 var _prosemirrorTransform = require("prosemirror-transform");
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
 // This function consolidates list nodes among the same "Lists Island".
 //
 // ## Definition of a "Lists Island"
@@ -43,12 +37,11 @@ function consolidateListNodes(tr) {
     // the transform is performed as "dryrun".
     return tr;
   }
+  let prevJointInfo;
 
-  let prevJointInfo; // Keep the loop running until there's no more list nodes that can be joined.
-
+  // Keep the loop running until there's no more list nodes that can be joined.
   while (true) {
     const jointInfo = traverseDocAndFindJointInfo(tr.doc, prevJointInfo);
-
     if (jointInfo) {
       const {
         deleteFrom,
@@ -64,9 +57,9 @@ function consolidateListNodes(tr) {
       break;
     }
   }
-
   return tr;
 }
+
 /**
  * This ensures that ordered lists with the same indent level among the same
  * Lists Island share the same counter.
@@ -95,21 +88,16 @@ function consolidateListNodes(tr) {
  *   --------
  * This means that the 1st and the 3rd lists are linked.
  */
-
-
 function linkOrderedListCounters(tr) {
   const from = 1;
   const to = tr.doc.nodeSize - 2;
-
   if (from >= to) {
     return tr;
   }
-
   const namedLists = new Set();
   let listsBefore = null;
   tr.doc.nodesBetween(from, to, (node, pos, parentNode) => {
     let willTraverseNodeChildren = true;
-
     if ((0, _isListNode.default)(node)) {
       // List Node can't be nested, no need to traverse its children.
       willTraverseNodeChildren = false;
@@ -119,11 +107,9 @@ function linkOrderedListCounters(tr) {
         name,
         following
       } = node.attrs;
-
       if (name) {
         namedLists.add(name);
       }
-
       if (listsBefore) {
         if (start === 1 && (0, _isOrderedListNode.default)(node)) {
           // Look backward until we could find another ordered list node to
@@ -170,10 +156,8 @@ function linkOrderedListCounters(tr) {
               counterIsLinked = true;
               return true;
             }
-
             return false;
           });
-
           if (counterIsLinked !== undefined) {
             tr = setCounterLinked(tr, pos, counterIsLinked);
           }
@@ -184,7 +168,6 @@ function linkOrderedListCounters(tr) {
         // 1. AAA <- Counter restarts here.
         // 2. BBB
         listsBefore = [];
-
         if ((0, _isOrderedListNode.default)(node)) {
           // The list may follow a previous list that is among another Lists
           // Island. If so, do not reset the list counter.
@@ -192,7 +175,6 @@ function linkOrderedListCounters(tr) {
           tr = setCounterLinked(tr, pos, counterIsLinked);
         }
       }
-
       listsBefore.unshift({
         parentNode,
         indent,
@@ -202,40 +184,35 @@ function linkOrderedListCounters(tr) {
       // Not traversing within any list node. No lists need to be updated.
       listsBefore = null;
     }
-
     return willTraverseNodeChildren;
   });
   return tr;
 }
-
 function setCounterLinked(tr, pos, linked) {
   const node = tr.doc.nodeAt(pos);
   const currentValue = node.attrs.counterReset || null;
   const nextValue = linked ? 'none' : null;
-
   if (nextValue !== currentValue) {
-    const nodeAttrs = { ...node.attrs,
+    const nodeAttrs = {
+      ...node.attrs,
       counterReset: nextValue
     };
     tr = tr.setNodeMarkup(pos, node.type, nodeAttrs, node.marks);
   }
-
   return tr;
 }
-
 function traverseDocAndFindJointInfo(doc, prevJointInfo) {
   const minFrom = 1;
   const from = prevJointInfo ? Math.max(minFrom, prevJointInfo.firstListNodePos) : minFrom;
   const to = doc.nodeSize - 2;
-
   if (to <= from) {
     return null;
   }
-
   let prevNode = null;
   let jointInfo = null;
-  let firstListNodePos = 0; // Perform the breadth-first traversal.
+  let firstListNodePos = 0;
 
+  // Perform the breadth-first traversal.
   doc.nodesBetween(from, to, (node, pos) => {
     if (jointInfo) {
       // We've found the list to merge. Stop traversing deeper.
@@ -243,33 +220,30 @@ function traverseDocAndFindJointInfo(doc, prevJointInfo) {
     } else if ((0, _isListNode.default)(node)) {
       firstListNodePos = firstListNodePos === 0 ? pos : firstListNodePos;
       jointInfo = resolveJointInfo(node, pos, prevNode, firstListNodePos);
-      prevNode = node; // Stop the traversing recursively inside the this list node because
+      prevNode = node;
+      // Stop the traversing recursively inside the this list node because
       // its content only contains inline nodes.
-
       return false;
     } else {
-      prevNode = node; // This is not a list node, will keep traversing deeper until we've found
+      prevNode = node;
+      // This is not a list node, will keep traversing deeper until we've found
       // a list node or reach the leaf node.
-
       return true;
     }
   });
-
   if (jointInfo) {
     // Reduce the range of the next traversal so it could run faster.
     jointInfo.firstListNodePos = firstListNodePos;
   }
-
   return jointInfo;
-} // If two siblings nodes that can be joined as single list, returns
+}
+
+// If two siblings nodes that can be joined as single list, returns
 // the information of how to join them.
-
-
 function resolveJointInfo(node, pos, prevNode, firstListNodePos) {
   if (!prevNode || !canJoinListNodes(node, prevNode)) {
     return null;
   }
-
   return {
     deleteFrom: pos,
     deleteTo: pos + node.nodeSize,
@@ -278,7 +252,6 @@ function resolveJointInfo(node, pos, prevNode, firstListNodePos) {
     firstListNodePos
   };
 }
-
 function canJoinListNodes(one, two) {
   return !!(one.type === two.type && one.attrs.indent === two.attrs.indent && (0, _isListNode.default)(one) && (0, _isListNode.default)(two));
 }

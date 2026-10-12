@@ -12,14 +12,12 @@ const StrikeMarkSpec = {
       return value === 'line-through' && null;
     }
   }],
-
   toDOM() {
     const style = 'text-decoration: line-through';
     return ['span', {
       style
     }, 0];
   }
-
 };
 var _default = StrikeMarkSpec;
 exports.default = _default;

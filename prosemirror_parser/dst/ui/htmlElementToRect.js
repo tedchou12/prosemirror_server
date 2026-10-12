@@ -4,7 +4,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = htmlElementToRect;
-
 function htmlElementToRect(el) {
   const rect = el.getBoundingClientRect();
   return {

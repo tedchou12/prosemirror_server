@@ -13,11 +13,9 @@ const TextSubMarkSpec = {
       return value === 'sub' && null;
     }
   }],
-
   toDOM() {
     return ['sub', 0];
   }
-
 };
 var _default = TextSubMarkSpec;
 exports.default = _default;

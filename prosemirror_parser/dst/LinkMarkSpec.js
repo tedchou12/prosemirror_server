@@ -32,11 +32,9 @@ const LinkMarkSpec = {
       };
     }
   }],
-
   toDOM(node) {
     return ['a', node.attrs, 0];
   }
-
 };
 var _default = LinkMarkSpec;
 exports.default = _default;

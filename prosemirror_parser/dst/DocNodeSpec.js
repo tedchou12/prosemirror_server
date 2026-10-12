@@ -5,11 +5,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.getAttrs = getAttrs;
 exports.default = exports.ATTRIBUTE_LAYOUT = exports.LAYOUT = void 0;
-
 var _convertToCSSPTValue = _interopRequireDefault(require("./convertToCSSPTValue"));
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
 const LAYOUT = {
   DESKTOP_SCREEN_4_3: 'desktop_screen_4_3',
   DESKTOP_SCREEN_16_9: 'desktop_screen_16_9',
@@ -21,7 +18,6 @@ const LAYOUT = {
 exports.LAYOUT = LAYOUT;
 const ATTRIBUTE_LAYOUT = 'data-layout';
 exports.ATTRIBUTE_LAYOUT = ATTRIBUTE_LAYOUT;
-
 function getAttrs(el) {
   const attrs = {
     layout: null,
@@ -35,14 +31,12 @@ function getAttrs(el) {
   } = el.style || {};
   const ww = (0, _convertToCSSPTValue.default)(width) || (0, _convertToCSSPTValue.default)(maxWidth);
   const pp = (0, _convertToCSSPTValue.default)(padding);
-
   if (ww) {
     // 1pt = 1/72in
     // letter size: 8.5in x 11inch
     const ptWidth = ww + pp * 2;
     const inWidth = ptWidth / 72;
     const cmWidth = inWidth * 2.54;
-
     if (inWidth >= 10.9 && inWidth <= 11.1) {
       // Round up to letter size.
       attrs.layout = LAYOUT.US_LETTER_LANDSCAPE;
@@ -55,16 +49,13 @@ function getAttrs(el) {
       attrs.layout = LAYOUT.A4_PORTRAIT;
     } else {
       attrs.width = ptWidth;
-
       if (pp) {
         attrs.padding = pp;
       }
     }
   }
-
   return attrs;
 }
-
 const DocNodeSpec = {
   attrs: {
     layout: {

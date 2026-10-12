@@ -4,11 +4,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = isEditorStateEmpty;
-
 var _prosemirrorState = require("prosemirror-state");
-
 const ZERO_WIDTH_SPACE_CHAR = '\u200b';
-
 function isEditorStateEmpty(editorState) {
   const {
     doc
@@ -16,7 +13,6 @@ function isEditorStateEmpty(editorState) {
   const {
     nodeSize
   } = doc;
-
   if (nodeSize < 2) {
     const text = doc.textContent;
     return !text || text === ' ';
@@ -25,7 +21,6 @@ function isEditorStateEmpty(editorState) {
     doc.nodesBetween(0, doc.nodeSize - 2, (node, ii) => {
       if (isEmpty) {
         const nodeType = node.type;
-
         if (nodeType.isText) {
           const text = doc.textContent;
           isEmpty = !text || text === ' ' || text === ZERO_WIDTH_SPACE_CHAR;
@@ -34,7 +29,6 @@ function isEditorStateEmpty(editorState) {
           isEmpty = false;
         }
       }
-
       return isEmpty;
     });
     return isEmpty;

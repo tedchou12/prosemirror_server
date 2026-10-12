@@ -9,11 +9,9 @@ const TextNoWrapMarkSpec = {
   parseDOM: [{
     tag: 'nobr'
   }],
-
   toDOM() {
     return NO_WRAP_DOM;
   }
-
 };
 var _default = TextNoWrapMarkSpec;
 exports.default = _default;

@@ -4,28 +4,20 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = createTableResizingPlugin;
-
 var _prosemirrorState = require("prosemirror-state");
-
 var _prosemirrorTables = require("prosemirror-tables");
-
 var _prosemirrorView = require("prosemirror-view");
-
 const TABLE_HANDLE_WIDTH = 10;
 const TABLE_CELL_MINWIDTH = 25;
 const TABLE_VIEW = undefined;
 const TABLE_LAST_COLUMN_RESIZABLE = false;
-
 function lookUpTableWrapper(event) {
   const target = event.target;
-
   if (!target || !target.closest) {
     return null;
   }
-
   return target.closest('.tableWrapper');
 }
-
 function dispatchMouseEvent(type, clientX) {
   requestAnimationFrame(() => {
     const event = new MouseEvent(type, {
@@ -37,7 +29,6 @@ function dispatchMouseEvent(type, clientX) {
     window.dispatchEvent(event);
   });
 }
-
 function calculateMaxClientX(event, targetTable) {
   const {
     clientX
@@ -52,12 +43,11 @@ function calculateMaxClientX(event, targetTable) {
   const cx = width - offsetX - colsCount * TABLE_CELL_MINWIDTH;
   return Math.round(clientX + Math.max(0, cx));
 }
-
 function createTableResizingPlugin() {
-  let maxClientX = 0; // https://github.com/ProseMirror/prosemirror-tables/blob/master/src/columnresizing.js
+  let maxClientX = 0;
 
+  // https://github.com/ProseMirror/prosemirror-tables/blob/master/src/columnresizing.js
   const plugin = (0, _prosemirrorTables.columnResizing)(TABLE_HANDLE_WIDTH, TABLE_CELL_MINWIDTH, TABLE_VIEW, TABLE_LAST_COLUMN_RESIZABLE);
-
   const captureMouse = event => {
     if (event.clientX > maxClientX) {
       // Current mouse event will make table too wide. Stop it and
@@ -69,12 +59,12 @@ function createTableResizingPlugin() {
       window.removeEventListener('mouseup', captureMouse, true);
     }
   };
-
   const {
     mousedown
-  } = plugin.props.handleDOMEvents; // This is a workaround to constraint the mousemove to prevent
-  // the table become too wide.
+  } = plugin.props.handleDOMEvents;
 
+  // This is a workaround to constraint the mousemove to prevent
+  // the table become too wide.
   Object.assign(plugin.props.handleDOMEvents, {
     mousedown(view, event) {
       const targetTable = lookUpTableWrapper(event);
@@ -84,7 +74,6 @@ function createTableResizingPlugin() {
       mousedown(view, event);
       return false;
     }
-
   });
   return plugin;
 }

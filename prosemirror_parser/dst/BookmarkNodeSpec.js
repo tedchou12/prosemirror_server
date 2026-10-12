@@ -8,7 +8,6 @@ const ATTRIBUTE_BOOKMARK_ID = 'data-bookmark-id';
 exports.ATTRIBUTE_BOOKMARK_ID = ATTRIBUTE_BOOKMARK_ID;
 const ATTRIBUTE_BOOKMARK_VISIBLE = 'data-bookmark-visible';
 exports.ATTRIBUTE_BOOKMARK_VISIBLE = ATTRIBUTE_BOOKMARK_VISIBLE;
-
 function getAttrs(dom) {
   const id = dom.getAttribute(ATTRIBUTE_BOOKMARK_ID);
   const visible = dom.getAttribute(ATTRIBUTE_BOOKMARK_VISIBLE) === 'true';
@@ -17,7 +16,6 @@ function getAttrs(dom) {
     visible
   };
 }
-
 const BookmarkNodeSpec = {
   inline: true,
   attrs: {
@@ -34,7 +32,6 @@ const BookmarkNodeSpec = {
     tag: `a[${ATTRIBUTE_BOOKMARK_ID}]`,
     getAttrs
   }],
-
   toDOM(node) {
     const {
       id,
@@ -47,7 +44,6 @@ const BookmarkNodeSpec = {
     } : {};
     return ['a', attrs];
   }
-
 };
 var _default = BookmarkNodeSpec;
 exports.default = _default;
