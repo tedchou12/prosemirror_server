@@ -1,0 +1,21 @@
+{
+  "name": "node-mathquill",
+  "description": "Easily type math in your webapp (published to npm for node/webpack builds)",
+  "version": "0.10.2",
+  "license": "MPL-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/FB-PLP/mathquill.git"
+  },
+  "files": [
+    "build/mathquill.{css,js,min.js}",
+    "build/font/Symbola.*",
+    "quickstart.html"
+  ],
+  "devDependencies": {
+    "pjs": ">=3.1.0 <5.0.0",
+    "mocha": ">=2.4.1",
+    "uglify-js": "2.x",
+    "less": ">=1.5.1"
+  }
+}

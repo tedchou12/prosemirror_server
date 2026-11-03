@@ -1,0 +1,8 @@
+{"version":1,"steps":[{"stepType":"replace","from":1,"to":1,"slice":{"content":[{"type":"text","text":"a"}]}}],"clientID":"b8c0ef00-0487-11eb-83fa-e3471000ab05"}
+{"version":2,"steps":[{"stepType":"replace","from":2,"to":2,"slice":{"content":[{"type":"text","text":"b"}]}}],"clientID":"bb0d01e0-0487-11eb-81d7-5d79bb325b02"}
+{"version":3,"steps":[{"stepType":"replace","from":3,"to":3,"slice":{"content":[{"type":"text","text":"d"}]}}],"clientID":"bb0d01e0-0487-11eb-81d7-5d79bb325b02"}
+{"version":4,"steps":[{"stepType":"replace","from":6,"to":6,"slice":{"content":[{"type":"paragraph","attrs":{"align":null,"color":null,"id":null,"indent":null,"lineSpacing":null,"paddingBottom":null,"paddingTop":null,"objectId":null},"content":[{"type":"image","attrs":{"align":null,"alt":"","crop":null,"height":0,"rotate":null,"src":"","title":"","width":0,"objectId":null}}]}]}}],"clientID":"c067db60-0487-11eb-9273-1bb18cd292b1"}
+{"version":5,"steps":[{"stepType":"replace","from":9,"to":9,"slice":{"content":[{"type":"paragraph","attrs":{"align":null,"color":null,"id":null,"indent":null,"lineSpacing":null,"paddingBottom":null,"paddingTop":null,"objectId":null},"content":[{"type":"image","attrs":{"align":null,"alt":"","crop":null,"height":0,"rotate":null,"src":"","title":"","width":0,"objectId":null}}]}]}}],"clientID":"d0b823a0-04c1-11eb-aeb7-27cfc6fea037"}
+{"version":6,"steps":[{"stepType":"replace","from":10,"to":11}],"clientID":"d0b823a0-04c1-11eb-aeb7-27cfc6fea037"}
+{"version":7,"steps":[{"stepType":"replace","from":8,"to":10,"structure":true}],"clientID":"d0b823a0-04c1-11eb-aeb7-27cfc6fea037"}
+{"version":8,"steps":[{"stepType":"replace","from":7,"to":8}],"clientID":"d0b823a0-04c1-11eb-aeb7-27cfc6fea037"}

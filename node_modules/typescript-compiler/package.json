@@ -1,0 +1,33 @@
+{
+  "name": "typescript-compiler",
+  "version": "1.4.1-2",
+  "description": "Typescript compiler wrapper",
+  "main": "index.js",
+  "scripts": {
+    "build": "make build",
+    "test": "make build && mocha --compilers ts:typescript-require"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/theblacksmith/typescript-compiler.git"
+  },
+  "keywords": [
+    "TypeScript",
+    "compiler",
+    "language",
+    "javascript",
+    "api"
+  ],
+  "author": "The Blacksmith (a.k.a. Saulo Vallory)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/theblacksmith/typescript-compiler/issues"
+  },
+  "homepage": "https://github.com/theblacksmith/typescript-compiler",
+  "readmeFilename": "README.md",
+  "devDependencies": {
+    "chai": "^1.10.0",
+    "mocha": "^2.0.1",
+    "typescript-require": ">=0.2.7"
+  }
+}
